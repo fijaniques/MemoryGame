@@ -1,16 +1,22 @@
 extends Control
 
 var card = preload("res://Objects/Cards/Card.tscn")
-var fList :Array = []
+
+#DECK
 var cList :Array = []
 var fTotal :int
+
+#CARDS POSITION
 var initPos = Vector2(0,100)
 var currentPos = Vector2.ZERO
 var grid = Vector2.ZERO
 
-
-enum{EASY, MEDIUM, HARD}
+#DIFFICULTY
+enum{EASY, MEDIUM, HARD, EXTREME}
 var mode
+
+#RULES
+
 
 func _ready():
 	randomize()
@@ -34,6 +40,7 @@ func _deal_cards():
 	currentPos.y = 0
 	
 	for y in grid.y:
+	#CREATE DECK BASED ON GRID SIZE
 		currentPos.x = 0
 		if(y > 0):
 			currentPos.y += 250
@@ -42,23 +49,24 @@ func _deal_cards():
 			$Deck.add_child(cList[c])
 			c += 1
 			currentPos.x += 200
-			
+	
+	#CENTRALIZE
 	var deckCenter = Vector2.ZERO
 	deckCenter.x = (currentPos.x - 60) / 2
 	deckCenter.y = (currentPos.y + 60) / 2
 	var center = get_rect().size / 2
-
 	$Deck.position = center - deckCenter
-		
+
 func _set_difficulty():
-	mode = HARD
+	mode = MEDIUM
 	match mode:
 		EASY:
-			fTotal = 4
 			grid = Vector2(4,2)
 		MEDIUM:
-			fTotal = 10
-			grid = Vector2(5,4)
+			grid = Vector2(4,4)
 		HARD:
-			fTotal = 20
+			grid = Vector2(6,5)
+		EXTREME:
 			grid = Vector2(8,5)
+	
+	fTotal = grid.x * grid.y / 2
