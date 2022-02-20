@@ -16,7 +16,7 @@ func _ready():
 	_set_difficulty()
 	_create_cards()
 	_deal_cards()
-	
+
 func _create_cards():
 	for c in fTotal:
 		var cInstance = card.instance()
@@ -27,13 +27,18 @@ func _create_cards():
 		cList.append(cInstance2)
 
 func _deal_cards():
-	for c in cList:
-		currentPos += Vector2(200,0)
-		c.initPos = currentPos
-		add_child(c)
+	var theCard :int = 0
+	for y in grid.y:
+		currentPos.x = 200
+		currentPos.y += 250
+		for x in grid.x:
+			currentPos.x += 200
+			cList[theCard].initPos = currentPos
+			add_child(cList[theCard])
+			theCard += 1
 
 func _set_difficulty():
-	mode = EASY
+	mode = HARD
 	match mode:
 		EASY:
 			fTotal = 4
