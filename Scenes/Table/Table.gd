@@ -8,10 +8,12 @@ var initPos = Vector2(0,100)
 var currentPos = Vector2.ZERO
 var grid = Vector2.ZERO
 
+
 enum{EASY, MEDIUM, HARD}
 var mode
 
 func _ready():
+	randomize()
 	currentPos = initPos
 	_set_difficulty()
 	_create_cards()
@@ -25,18 +27,29 @@ func _create_cards():
 		cInstance2.cardID = c + 1
 		cList.append(cInstance)
 		cList.append(cInstance2)
+	cList.shuffle()
 
 func _deal_cards():
-	var theCard :int = 0
+	var c :int = 0
+	currentPos.y = 0
+	
 	for y in grid.y:
-		currentPos.x = 200
-		currentPos.y += 250
+		currentPos.x = 0
+		if(y > 0):
+			currentPos.y += 250
 		for x in grid.x:
+			cList[c].initPos = currentPos
+			$Deck.add_child(cList[c])
+			c += 1
 			currentPos.x += 200
-			cList[theCard].initPos = currentPos
-			add_child(cList[theCard])
-			theCard += 1
+			
+	var deckCenter = Vector2.ZERO
+	deckCenter.x = (currentPos.x - 60) / 2
+	deckCenter.y = (currentPos.y + 60) / 2
+	var center = get_rect().size / 2
 
+	$Deck.position = center - deckCenter
+		
 func _set_difficulty():
 	mode = HARD
 	match mode:
