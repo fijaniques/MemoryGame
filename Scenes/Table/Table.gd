@@ -16,7 +16,8 @@ enum{EASY, MEDIUM, HARD, EXTREME}
 var mode
 
 #RULES
-
+var click1
+var click2
 
 func _ready():
 	randomize()
@@ -46,6 +47,7 @@ func _deal_cards():
 			currentPos.y += 250
 		for x in grid.x:
 			cList[c].initPos = currentPos
+			cList[c].connect("card_id", self, "_verify_match")
 			$Deck.add_child(cList[c])
 			c += 1
 			currentPos.x += 200
@@ -58,7 +60,7 @@ func _deal_cards():
 	$Deck.position = center - deckCenter
 
 func _set_difficulty():
-	mode = MEDIUM
+	mode = EASY
 	match mode:
 		EASY:
 			grid = Vector2(4,2)
@@ -70,3 +72,25 @@ func _set_difficulty():
 			grid = Vector2(8,5)
 	
 	fTotal = grid.x * grid.y / 2
+
+func _verify_match(x):
+	if(click1 == null):
+		click1 = x
+		click1.disabled = true
+	else:
+		click2 = x
+		click2.disabled = true
+	
+	if(click1 and click2):
+		if(click1.cardID == click2.cardID):
+			print("MATCH")
+			click1.modulate = Color(1,1,1,0.4)
+			click2.modulate = Color(1,1,1,0.4)
+		else:
+			print("NOPE")
+			click1.disabled = false
+			click2.disabled = false
+			click1.set_pressed_no_signal(false)
+			click2.set_pressed_no_signal(false)
+		click1 = null
+		click2 = null
