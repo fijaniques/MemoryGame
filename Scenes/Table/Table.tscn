@@ -63,4 +63,26 @@ custom_fonts/font = SubResource( 1 )
 align = 2
 valign = 1
 
-[node name="Deck" type="Node2D" parent="."]
+[node name="Deck" type="Control" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Timers" type="Node2D" parent="."]
+
+[node name="Flip" type="Timer" parent="Timers"]
+wait_time = 0.5
+one_shot = true
+
+[node name="Time" type="Timer" parent="Timers"]
+one_shot = true
+
+[node name="Focus" type="Button" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+flat = true
+
+[connection signal="timeout" from="Timers/Flip" to="." method="_on_Flip_timeout"]

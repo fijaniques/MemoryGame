@@ -1,6 +1,8 @@
 extends Control
 
 var card = preload("res://Objects/Cards/Card.tscn")
+onready var flip = $Timers/Flip
+onready var time = $Timers/Time
 
 #DECK
 var cList :Array = []
@@ -18,12 +20,14 @@ var mode
 #RULES
 var click1
 var click2
+var canClick :bool = true
 var found :int = 0
 onready var score = $HBox/Score
 onready var hScore = $HBox/HighScore
 
 func _ready():
 	randomize()
+	$Focus.mouse_filter = MOUSE_FILTER_IGNORE
 	MANAGER.score = 0
 	currentPos = initPos
 #	_set_label(0)
@@ -62,7 +66,7 @@ func _deal_cards():
 	deckCenter.x = (currentPos.x - 60) / 2
 	deckCenter.y = (currentPos.y + 60) / 2
 	var center = get_rect().size / 2
-	$Deck.position = center - deckCenter
+	$Deck.rect_position = center - deckCenter
 
 func _set_difficulty():
 	mode = MANAGER.dif
@@ -92,14 +96,12 @@ func _verify_match(x):
 			found += 1
 			click1.modulate = Color(1,1,1,0.4)
 			click2.modulate = Color(1,1,1,0.4)
+			click1 = null
+			click2 = null
 		else:
 			_set_label(-25)
-			click1.disabled = false
-			click2.disabled = false
-			click1.set_pressed_no_signal(false)
-			click2.set_pressed_no_signal(false)
-		click1 = null
-		click2 = null
+			$Focus.mouse_filter = MOUSE_FILTER_STOP
+			flip.start()
 	
 	if(found >= cList.size() / 2):
 		get_tree().change_scene("res://Scenes/MainMenu/MainMenu.tscn")
@@ -108,3 +110,12 @@ func _set_label(x):
 	MANAGER.setScore = x
 	score.text = str(MANAGER.score)
 	hScore.text = str(MANAGER.hScore)
+
+func _on_Flip_timeout():
+	click1.disabled = false
+	click2.disabled = false
+	click1.set_pressed_no_signal(false)
+	click2.set_pressed_no_signal(false)
+	click1 = null
+	click2 = null
+	$Focus.mouse_filter = MOUSE_FILTER_IGNORE

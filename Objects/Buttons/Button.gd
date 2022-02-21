@@ -4,7 +4,7 @@ var scene :PackedScene
 enum{EASY, MEDIUM, HARD, EXTREME}
 
 func _on_Button_pressed():
-	scene = load("res://Scenes/MainMenu/MainMenu.tscn")
+	scene = load("res://Scenes/Table/Table.tscn")
 	if(name == "Play"):
 		if(MANAGER.dif == null):
 			scene = load("res://Scenes/Difficulty/Difficulty.tscn")
