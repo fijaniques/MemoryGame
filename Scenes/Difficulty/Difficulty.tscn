@@ -1,0 +1,54 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://Scenes/Difficulty/Difficulty.gd" type="Script" id=1]
+[ext_resource path="res://Objects/Buttons/Button.tscn" type="PackedScene" id=2]
+
+[node name="Difficulty" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+custom_constants/separation = 100
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="EASY" parent="VBoxContainer" instance=ExtResource( 2 )]
+margin_right = 3840.0
+margin_bottom = 358.0
+size_flags_horizontal = 3
+text = "Easy"
+
+[node name="MEDIUM" parent="VBoxContainer" instance=ExtResource( 2 )]
+margin_top = 458.0
+margin_right = 3840.0
+margin_bottom = 816.0
+size_flags_horizontal = 3
+text = "Medium"
+
+[node name="HARD" parent="VBoxContainer" instance=ExtResource( 2 )]
+margin_top = 916.0
+margin_right = 3840.0
+margin_bottom = 1274.0
+size_flags_horizontal = 3
+text = "Hard"
+
+[node name="EXTREME" parent="VBoxContainer" instance=ExtResource( 2 )]
+margin_top = 1374.0
+margin_right = 3840.0
+margin_bottom = 1732.0
+size_flags_horizontal = 3
+text = "Extreme"
+
+[node name="BACK" parent="VBoxContainer" instance=ExtResource( 2 )]
+margin_top = 1832.0
+margin_right = 3840.0
+margin_bottom = 2190.0
+size_flags_horizontal = 3
+text = "Main Menu"

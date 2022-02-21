@@ -18,10 +18,15 @@ var mode
 #RULES
 var click1
 var click2
+var found :int = 0
+onready var score = $HBox/Score
+onready var hScore = $HBox/HighScore
 
 func _ready():
 	randomize()
+	MANAGER.score = 0
 	currentPos = initPos
+#	_set_label(0)
 	_set_difficulty()
 	_create_cards()
 	_deal_cards()
@@ -60,7 +65,7 @@ func _deal_cards():
 	$Deck.position = center - deckCenter
 
 func _set_difficulty():
-	mode = EASY
+	mode = MANAGER.dif
 	match mode:
 		EASY:
 			grid = Vector2(4,2)
@@ -83,14 +88,23 @@ func _verify_match(x):
 	
 	if(click1 and click2):
 		if(click1.cardID == click2.cardID):
-			print("MATCH")
+			_set_label(50)
+			found += 1
 			click1.modulate = Color(1,1,1,0.4)
 			click2.modulate = Color(1,1,1,0.4)
 		else:
-			print("NOPE")
+			_set_label(-25)
 			click1.disabled = false
 			click2.disabled = false
 			click1.set_pressed_no_signal(false)
 			click2.set_pressed_no_signal(false)
 		click1 = null
 		click2 = null
+	
+	if(found >= cList.size() / 2):
+		get_tree().change_scene("res://Scenes/MainMenu/MainMenu.tscn")
+
+func _set_label(x):
+	MANAGER.setScore = x
+	score.text = str(MANAGER.score)
+	hScore.text = str(MANAGER.hScore)
